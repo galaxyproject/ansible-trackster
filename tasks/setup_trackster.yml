@@ -22,6 +22,15 @@
     - http://hgdownload.cse.ucsc.edu/admin/exe/linux.x86_64/bedGraphToBigWig
     - http://hgdownload.cse.ucsc.edu/admin/exe/linux.x86_64/faToTwoBit
 
+- name: Symlink trackster required binaries to /usr/bin since trackster specifically looks for them there
+  file: src={{ galaxyFS_base_dir }}/tools/bin/{{ item }} dest=/usr/bin/{{ item }} state=link
+  with_items:
+    - wigToBigWig
+    - bedGraphToBigWig
+    - faToTwoBit
+  sudo: yes
+  sudo_user: root
+
 - name: Download bedtools source
   get_url: url=https://github.com/arq5x/bedtools2/releases/download/v{{ bedtools_version }}/bedtools-{{ bedtools_version }}.tar.gz dest=/tmp/bedtools2.tar.gz
 
@@ -29,13 +38,13 @@
   unarchive: copy=no src=/tmp/bedtools2.tar.gz dest=/tmp/
 
 - name: Make bedtools
-  command: chdir=/tmp/bedtools2 make
+  command: chdir=/tmp/bedtools2-{{ bedtools_version }} make
 
 - name: Copy bedtools binaries
-  shell: cp /tmp/bedtools2/bin/* {{ galaxyFS_base_dir }}/tools/bin/.
+  shell: cp /tmp/bedtools2-{{ bedtools_version }}/bin/* {{ galaxyFS_base_dir }}/tools/bin/.
 
 - name: Remove downloaded bedtools tarball
   file: path=/tmp/bedtools2.tar.gz state=absent
 
 - name: Remove tmp bedtools dir
-  file: path=/tmp/bedtools2 state=absent
+  file: path=/tmp/bedtools2-{{ bedtools_version }} state=absent
