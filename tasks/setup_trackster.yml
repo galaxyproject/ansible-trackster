@@ -15,6 +15,9 @@
   unarchive: copy=no src=/tmp/len-files.tar.gz dest={{ len_file_path }}
   become_user: "{{ galaxy_user_name }}"
 
+- name: Remove downloaded gzipped len file
+  file: path=/tmp/len-files.tar.gz state=absent
+
 - name: Assure generic tools bin dir exists
   file: state=directory path={{ galaxy_custom_tools_dir }}
 
