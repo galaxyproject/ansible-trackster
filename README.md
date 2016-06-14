@@ -1,4 +1,4 @@
-This role is used to setup a Trackster genome browser in Galaxy.
+This role is used to setup [Trackster][trackster] genome browser in Galaxy.
 
 Requirements
 ------------
@@ -7,8 +7,9 @@ The role has been developed and tested on Ubuntu 14.04. It uses `sudo`
 
 Variables
 ---------
-Note that some of these variables should match equaly named ones from the
-[`ansible-cloudman`][acm] role.
+If using this role in the context of [Galaxy CloudMan][cm], note that some of these
+variables need to match equally named ones from the [`ansible-cloudman`][acm]
+role.
 
  - `galaxy_manage_trackster`: (default: `yes`) if set, the role will run
  - `galaxy_user_name`: (default: `galaxy`) system username used for Galaxy
@@ -16,7 +17,7 @@ Note that some of these variables should match equaly named ones from the
     galaxy file system is planned to be placed
  - `len_file_path`: (default: `"{{ galaxyFS_base_dir }}/galaxy-app/config/len"`)
     the default location where Trackster's `.len` files should be placed
- - `bedtools_version`: (default: `2.20.1`) the version of BED tools to download
+ - `bedtools_version`: (default: `2.25.0`) the version of BED tools to download
     and `make`
 
 Dependencies
@@ -29,11 +30,11 @@ To use the role, wrap it into a playbook as follows (the following assumes the
 role has been placed into directory `roles/galaxyprojectdotorg.trackster`):
 
     - hosts: galaxyFS-builder
-      sudo: yes
+      become: yes
       pre_tasks:
         - name: Assure galaxyFS dir exists
           file: path={{ galaxyFS_base_dir }} state=directory owner={{ galaxy_user_name }} group={{ galaxy_user_name }}
-          sudo_user: root
+          become_user: root
       roles:
         - role: galaxyprojectdotorg.trackster
 
@@ -46,5 +47,6 @@ Finally, run the playbook as follows:
 
     $ ansible-playbook playbook.yml -i hosts
 
-
+[trackster]: https://wiki.galaxyproject.org/Learn/Visualization
+[cm]: https://wiki.galaxyproject.org/CloudMan/
 [acm]: https://github.com/galaxyproject/ansible-cloudman
