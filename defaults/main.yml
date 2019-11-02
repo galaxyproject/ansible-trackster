@@ -1,6 +1,6 @@
 ---
 galaxy_manage_trackster: yes
 galaxy_user_name: galaxy
-bedtools_version: 2.25.0
+bedtools_version: 2.28.0
 galaxy_server_dir: /home/galaxy/galaxy
 galaxy_custom_tools_dir: "{{ galaxy_server_dir }}/.venv//bin"
