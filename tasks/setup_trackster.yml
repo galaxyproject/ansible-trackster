@@ -3,17 +3,17 @@
 #
 #   https://wiki.galaxyproject.org/VisualizationSetup
 
-#- name: Assure Trackster len files dir exists
-#  file: state=directory path="{{ len_file_path }}" owner="{{ galaxy_user_name }}" group="{{ galaxy_user_name }}"  #"
-#
-#- name: Download .len files
-#  get_url: url=https://s3.amazonaws.com/cloudman/files/len-files.tar.gz dest=/tmp/len-files.tar.gz timeout=30
-#
-#- name: Unarchive .len files
-#  unarchive: copy=no src=/tmp/len-files.tar.gz dest={{ len_file_path }} owner="{{ galaxy_user_name }}" group="{{ galaxy_user_name }}"  #"
-#
-#- name: Remove downloaded gzipped len file
-#  file: path=/tmp/len-files.tar.gz state=absent
+- name: Assure Trackster len files dir exists
+ file: state=directory path="{{ len_file_path }}" owner="{{ galaxy_user_name }}" group="{{ galaxy_user_name }}"  #"
+
+- name: Download .len files
+ get_url: url=https://s3.amazonaws.com/cloudman/files/len-files.tar.gz dest=/tmp/len-files.tar.gz timeout=30
+
+- name: Unarchive .len files
+ unarchive: copy=no src=/tmp/len-files.tar.gz dest={{ len_file_path }} owner="{{ galaxy_user_name }}" group="{{ galaxy_user_name }}"  #"
+
+- name: Remove downloaded gzipped len file
+ file: path=/tmp/len-files.tar.gz state=absent
 
 - name: Assure generic tools bin dir exists
   file: state=directory path={{ galaxy_custom_tools_dir }} owner="{{ galaxy_user_name }}" group="{{ galaxy_user_name }}"  #"
