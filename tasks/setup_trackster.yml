@@ -3,17 +3,10 @@
 #
 #   https://wiki.galaxyproject.org/VisualizationSetup
 
-- name: Assure Trackster len files dir exists
-  file: state=directory path="{{ len_file_path }}" owner="{{ galaxy_user_name }}" group="{{ galaxy_user_name }}"  #"
-
-- name: Download .len files
-  get_url: url=https://s3.amazonaws.com/cloudman/files/len-files.tar.gz dest=/tmp/len-files.tar.gz timeout=30
-
-- name: Unarchive .len files
-  unarchive: copy=no src=/tmp/len-files.tar.gz dest={{ len_file_path }} owner="{{ galaxy_user_name }}" group="{{ galaxy_user_name }}"  #"
-
-- name: Remove downloaded gzipped len file
-  file: path=/tmp/len-files.tar.gz state=absent
+- name: extract and copy .len files in Galaxy FS
+  unarchive:
+    src: len.tar.gz
+    dest: "{{ len_file_path }}"
 
 - name: Assure generic tools bin dir exists
   file: state=directory path={{ galaxy_custom_tools_dir }} owner="{{ galaxy_user_name }}" group="{{ galaxy_user_name }}"  #"
@@ -25,30 +18,7 @@
     - http://hgdownload.cse.ucsc.edu/admin/exe/linux.x86_64/bedGraphToBigWig
     - http://hgdownload.cse.ucsc.edu/admin/exe/linux.x86_64/faToTwoBit
 
-- name: Check if bedtools is already available
-  stat: path="{{galaxy_custom_tools_dir}}/bedtools"
-  register: bedtools_installed
-
-- name: Download bedtools source
-  get_url: url=https://github.com/arq5x/bedtools2/releases/download/v{{ bedtools_version }}/bedtools-{{ bedtools_version }}.tar.gz dest=/tmp/bedtools2.tar.gz
-  when: not bedtools_installed.stat.exists
-
-- name: Extract bedtools source
-  unarchive: copy=no src=/tmp/bedtools2.tar.gz dest=/tmp/
-  when: not bedtools_installed.stat.exists
-
-- name: Make bedtools
-  command: chdir=/tmp/bedtools2 make
-  when: not bedtools_installed.stat.exists
-
-- name: Copy bedtools binaries
-  shell: cp /tmp/bedtools2/bin/* {{ galaxy_custom_tools_dir }}/.
-  when: not bedtools_installed.stat.exists
-
-- name: Remove downloaded bedtools tarball
-  file: path=/tmp/bedtools2.tar.gz state=absent
-  when: not bedtools_installed.stat.exists
-
-- name: Remove tmp bedtools dir
-  file: path=/tmp/bedtools2 state=absent
-  when: not bedtools_installed.stat.exists
+- name: Download bedtools binaries
+  get_url: url={{ item }} dest={{ galaxy_custom_tools_dir }} mode=0755
+  with_items:
+    - https://github.com/arq5x/bedtools2/releases/download/v{{ bedtools_version }}/bedtools

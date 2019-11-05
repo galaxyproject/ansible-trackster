@@ -1,7 +1,7 @@
 ---
 galaxy_manage_trackster: yes
 galaxy_user_name: galaxy
-len_file_path: "{{ galaxyFS_base_dir }}/galaxy-app/config/len"
-bedtools_version: 2.25.0
-galaxyFS_base_dir: /mnt/galaxy
-galaxy_custom_tools_dir: "{{ galaxyFS_base_dir }}/tools/bin"
+len_file_path: "{{ galaxy_server_dir }}/config/"
+bedtools_version: 2.28.0
+galaxy_server_dir: /home/galaxy/galaxy
+galaxy_custom_tools_dir: "{{ galaxy_server_dir }}/.venv//bin"
