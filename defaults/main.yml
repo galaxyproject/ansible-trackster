@@ -1,6 +1,7 @@
 ---
 galaxy_manage_trackster: yes
 galaxy_user_name: galaxy
+download_len_files: yes
 len_file_path: "{{ galaxy_server_dir }}/config/"
 bedtools_version: 2.29.2
 galaxy_server_dir: /galaxy/server

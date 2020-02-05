@@ -7,6 +7,7 @@
   unarchive:
     src: len.tar.gz
     dest: "{{ len_file_path }}"
+  when: download_len_files
 
 - name: Assure generic tools bin dir exists
   file: state=directory path={{ galaxy_custom_tools_dir }} owner="{{ galaxy_user_name }}" group="{{ galaxy_user_name }}"

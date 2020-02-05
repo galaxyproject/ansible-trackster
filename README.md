@@ -12,10 +12,11 @@ Variables
  - `galaxy_user_name`: (default: `galaxy`) system username used for Galaxy
  - `galaxy_server_dir`: (default: `/galaxy/server`) the base path under which the
     galaxy file system is planned to be placed
- - `bedtools_version`: (default: `2.29.2`) the version of BED tools to download
  - `galaxy_custom_tools_dir`: (default: `/galaxy/server/.venv/bin`) System path
    where Trackster utility tools will be installed. This path should be on the
    galaxy system user `$PATH`.
+ - `download_len_files`: (default: `yes`) if set, download `.len` files
+ - `bedtools_version`: (default: `2.29.2`) the version of BED tools to download
 
 Dependencies
 ------------
