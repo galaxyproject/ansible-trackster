@@ -3,13 +3,13 @@
 #
 #   https://wiki.galaxyproject.org/VisualizationSetup
 
-- name: extract and copy .len files in Galaxy FS
+- name: Extract and copy .len files in Galaxy FS
   unarchive:
     src: len.tar.gz
     dest: "{{ len_file_path }}"
 
 - name: Assure generic tools bin dir exists
-  file: state=directory path={{ galaxy_custom_tools_dir }} owner="{{ galaxy_user_name }}" group="{{ galaxy_user_name }}"  #"
+  file: state=directory path={{ galaxy_custom_tools_dir }} owner="{{ galaxy_user_name }}" group="{{ galaxy_user_name }}"
 
 - name: Download Trackster-required utilities
   get_url: url={{ item }} dest={{ galaxy_custom_tools_dir }} mode=0755
@@ -21,4 +21,4 @@
 - name: Download bedtools binaries
   get_url: url={{ item }} dest={{ galaxy_custom_tools_dir }} mode=0755
   with_items:
-    - https://github.com/arq5x/bedtools2/releases/download/v{{ bedtools_version }}/bedtools
+    - https://github.com/arq5x/bedtools2/releases/download/v{{ bedtools_version }}/bedtools.static.binary
